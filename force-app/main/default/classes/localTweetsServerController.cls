@@ -103,12 +103,44 @@ public with sharing class localTweetsServerController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static localTweetsServerController getOfficialsTweets(String cityState) {
+    public static localTweetsServerController getOfficialsTweets(String locationId) {
         
         localTweetsServerController obj = new localTweetsServerController();
 
         Twitter_Integration__mdt twitterSecret = [SELECT Token_Secret__c,Token__c FROM Twitter_Integration__mdt limit 1];
         
+        /* ------------ Start: Fetch list of Twitter Hanles for Location: ----------------- */
+        List<Twitter_Handle__c> lstTwHandlers = [Select name from Twitter_Handle__c where Location__c =: locationId];
+        system.debug('####### Twitter Handlers: ' + lstTwHandlers);
+
+        String strFromQuery;
+        if (!lstTwHandlers.isEmpty())
+        {
+            // 1. Add Risks keyword - TODO: Make it dynamic passing risks keywords defined in Work.com
+            // q=covid%20(reopen%20OR%20closed)%20(from%3Abouldercounty)&src=typed_query
+            
+            strFromQuery = Encodingutil.urlEncode('(corona OR covid OR order OR covid-19 OR reopen OR open OR closed OR closure OR lockdown OR stay-at-home OR phase OR restriction) (', 'UTF-8');
+            //strFromQuery = Encodingutil.urlEncode('COVID-19 (', 'UTF-8');
+            // q=(covid%20OR%20corona)
+
+            // 2. Add Twitter handles for the location
+            Integer count = 0;
+            for (Twitter_Handle__c h: lstTwHandlers)
+            {
+                if (count > 0)
+                    strFromQuery = strFromQuery + Encodingutil.urlEncode(' OR ', 'UTF-8');
+                strFromQuery = strFromQuery + 'from' + Encodingutil.urlEncode(':' + h.name, 'UTF-8');
+                count++;
+            }
+            strFromQuery = strFromQuery + ')';
+            // (from%3Abellevuewa%20OR%20from%3AKingCountyWA%20OR%20from%3AWAStateGov)            
+
+            // 3. Add limits
+            strFromQuery = strFromQuery + '&result_type=mixed&count=5';
+            system.debug('####### strFromQuery: ' + strFromQuery);
+        }
+
+        /* ------------ End: Fetch list of Twitter Hanles for Location: ----------------- */
 
         /* ------------ Start: authenticate to Twitter - Retrieve Bearer Token: ----------------- */
         String oauthConsumerKey = twitterSecret.Token__c;        
@@ -156,12 +188,12 @@ public with sharing class localTweetsServerController {
          /* ------------ End: authenticate to Twitter: - Retrieve Bearer Token ----------------- */
 
         /* ------------ Start: fetch official Twitter account for city and state using users/search API: ----------------- */
-
-        System.debug('########## cityState : ' + cityState);   
+ 
         HttpRequest req2 = new HttpRequest();
         //I actually store the endpoint in the same custom setting and build dynamically, but for purposes of demo:
         //req2.setEndpoint('https://api.twitter.com/1.1/users/search.json?q=' + 'city of ' + cityState);
-        req2.setEndpoint('https://api.twitter.com/1.1/search/tweets.json?q=' + cityState);
+       
+        req2.setEndpoint('https://api.twitter.com/1.1/search/tweets.json?q=' + strFromQuery);
         req2.setMethod('GET');
     
         //Call Bearer token Method
@@ -174,8 +206,6 @@ public with sharing class localTweetsServerController {
         System.debug('########## res2 : ' + res2);
         String sBody2 = res2.getBody();
         System.debug('########## sBody2 : ' + sBody2);
-        String responseBodyTwitterAccounts = res2.getBody();
-        System.debug('########## responseBodyTwitterAccounts : ' + responseBodyTwitterAccounts);
 
         /* ------------ End: fetch official Twitter account for city and state using users/search API:: ----------------- */
 

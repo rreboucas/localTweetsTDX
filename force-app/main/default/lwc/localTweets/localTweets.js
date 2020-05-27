@@ -2,7 +2,7 @@ import { LightningElement, wire, api } from 'lwc';
 import { subscribe, unsubscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import getLocationData from '@salesforce/apex/localTweetsServerController.getLocationAddress';
 import getTweets from '@salesforce/apex/localTweetsServerController.getOfficialsTweets';
-import SF_COMMAND_CENTER_MSG_CHANNEL from '@salesforce/messageChannel/back2work__CommandCenterMessageChannel__c';
+import SF_COMMAND_CENTER_MSG_CHANNEL from '@salesforce/messageChannel/lightning__CommandCenterMessageChannel';
 
 export default class LocalTweets extends LightningElement {
 
