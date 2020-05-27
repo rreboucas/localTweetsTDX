@@ -3,6 +3,14 @@
     <label>TwitterApp</label>
     <protected>true</protected>
     <values>
+        <field>AccessToken__c</field>
+        <value xsi:type="xsd:string">26842218-tkBPeU49tS49HmxhRrGiAQxpzNSXbhbuCNYrfa5Yn</value>
+    </values>
+    <values>
+        <field>TokenSecret__c</field>
+        <value xsi:type="xsd:string">Tj61ZuwPR4HYfdFDD2RD9gXkEFRdcH4oksQEoBUjxMbB9</value>
+    </values>
+    <values>
         <field>Token_Secret__c</field>
         <value xsi:type="xsd:string">LETjbmGTLmKF9tBldLY8gbNH3pwCgbg7o6ocSixKrkbdRbeJDx</value>
     </values>
