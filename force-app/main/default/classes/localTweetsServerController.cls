@@ -1,13 +1,19 @@
 public with sharing class localTweetsServerController {
     
     @AuraEnabled
+    public String createdAt { get;set; }
+    @AuraEnabled
+    public String text { get;set; }
+    @AuraEnabled
+    public String url { get;set; }
+    @AuraEnabled
+    public String twitterHandle { get;set; }
+    @AuraEnabled
     public String street { get;set; }
     @AuraEnabled
     public String city { get;set; }
     @AuraEnabled
     public String state { get;set; }
-    @AuraEnabled
-    public String country { get;set; }
 
     @AuraEnabled(cacheable=true)
     public static localTweetsServerController getLocationAddress(String locationID) {
@@ -103,9 +109,9 @@ public with sharing class localTweetsServerController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static localTweetsServerController getOfficialsTweets(String locationId) {
+    public static List<localTweetsServerController> getOfficialsTweets(String locationId) {
         
-        localTweetsServerController obj = new localTweetsServerController();
+        List<localTweetsServerController> lstReturnRecs = new List<localTweetsServerController>();
 
         Twitter_Integration__mdt twitterSecret = [SELECT Token_Secret__c,Token__c FROM Twitter_Integration__mdt limit 1];
         
@@ -187,7 +193,7 @@ public with sharing class localTweetsServerController {
 
          /* ------------ End: authenticate to Twitter: - Retrieve Bearer Token ----------------- */
 
-        /* ------------ Start: fetch official Twitter account for city and state using users/search API: ----------------- */
+        /* ------------ Start: fetch and parse tweets from Local Authorities for the location: ----------------- */
  
         HttpRequest req2 = new HttpRequest();
         //I actually store the endpoint in the same custom setting and build dynamically, but for purposes of demo:
@@ -207,12 +213,50 @@ public with sharing class localTweetsServerController {
         String sBody2 = res2.getBody();
         System.debug('########## sBody2 : ' + sBody2);
 
-        /* ------------ End: fetch official Twitter account for city and state using users/search API:: ----------------- */
+        // Parse Json response:
+        localTweetsServerController obj = new localTweetsServerController();
 
-        return obj;
+
+        getTweets recs = (getTweets) JSON.deserialize(sBody2, getTweets.class);
+        System.debug('########## recs : ' + recs);
+        for (Tweet t: recs.statuses){
+            obj.createdAt = t.created_at;
+            obj.text = t.text;
+            obj.twitterHandle = t.user.screen_name;
+            lstReturnRecs.add(obj);
+        }
+
+
+        /* ------------ End: fetch and parse tweets from Local Authorities for the location: ----------------- */
+        System.debug('########## lstReturnRecs size : ' + lstReturnRecs.size());
+        System.debug('########## lstReturnRecs : ' + lstReturnRecs);
+        return lstReturnRecs;
     }
 
-     
+    public class getTweets {
+        public List<Tweet> statuses {get;set;}
+    }
 
-    
+    public class Tweet{
+        public String created_at {get;set;}
+        public String text {get;set;}
+        public User user {get;set;}
+        //public Retweet retweeted_status {get;set;}
+    }
+    public class User{
+        public String screen_name {get;set;}
+    }
+
+    /*
+    public class Retweet{
+        public Entities entities {get;set;}
+    }
+
+    public class Entities{
+        public Urls urls {get;set;}
+    }
+
+    public class Urls{
+        public String url {get;set;}
+    } */
 }

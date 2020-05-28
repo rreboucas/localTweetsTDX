@@ -17,6 +17,7 @@ export default class LocalTweets extends LightningElement {
     @wire(MessageContext)
     messageContext;
 
+    /*
     @wire(getLocationData, { locationID: '$globalLocationId' })
     wiredLocation({ error, data }) {
         if (data) {
@@ -28,9 +29,9 @@ export default class LocalTweets extends LightningElement {
             this.latestCityState = undefined;
         }
     }
+    */
     
-    
-    @wire(getTweets, { cityState: '$latestCityState' })
+    @wire(getTweets, { locationId: '$globalLocationId' })
     wiredTweets({ error, data }) {
         if (data) {
             this.error = undefined;
