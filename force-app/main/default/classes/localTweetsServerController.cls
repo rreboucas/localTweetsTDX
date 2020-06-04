@@ -3,6 +3,8 @@ public with sharing class localTweetsServerController {
     @AuraEnabled
     public String createdAt { get;set; }
     @AuraEnabled
+    public String tweetId { get;set; }
+    @AuraEnabled
     public String text { get;set; }
     @AuraEnabled
     public String url { get;set; }
@@ -110,7 +112,23 @@ public with sharing class localTweetsServerController {
 
     @AuraEnabled(cacheable=true)
     public static List<localTweetsServerController> getOfficialsTweets(String locationId) {
-        
+
+        // If Location Id is null, fetch location ID for the countru - TODO: make it dynamic
+        if(String.isEmpty(locationId))
+        {
+            Sobject masterLocation;
+            String soql = 'SELECT Id FROM Location where name = ' + ' \'' + 'US' +'\'' + ' and LocationType = ' + ' \'' + 'Site' +'\'' + ' order by createddate desc limit 1';
+            System.Debug('##### soql: ' + soql);
+            masterLocation = Database.query(soql);
+
+            if (masterLocation != null)
+            {
+                locationId = (String)masterLocation.get('Id');
+                System.Debug('##### location is null - master location ID: ' + locationId);
+            }
+        }
+            
+
         List<localTweetsServerController> lstReturnRecs = new List<localTweetsServerController>();
 
         Twitter_Integration__mdt twitterSecret = [SELECT Token_Secret__c,Token__c FROM Twitter_Integration__mdt limit 1];
@@ -142,7 +160,7 @@ public with sharing class localTweetsServerController {
             // (from%3Abellevuewa%20OR%20from%3AKingCountyWA%20OR%20from%3AWAStateGov)            
 
             // 3. Add limits
-            strFromQuery = strFromQuery + '&result_type=mixed&count=5';
+            strFromQuery = strFromQuery + '&result_type=mixed&count=4';
             system.debug('####### strFromQuery: ' + strFromQuery);
         }
 
@@ -214,15 +232,18 @@ public with sharing class localTweetsServerController {
         System.debug('########## sBody2 : ' + sBody2);
 
         // Parse Json response:
-        localTweetsServerController obj = new localTweetsServerController();
+        
 
 
         getTweets recs = (getTweets) JSON.deserialize(sBody2, getTweets.class);
         System.debug('########## recs : ' + recs);
         for (Tweet t: recs.statuses){
+            localTweetsServerController obj = new localTweetsServerController();
             obj.createdAt = t.created_at;
+            obj.tweetId = t.id_str;
             obj.text = t.text;
             obj.twitterHandle = t.user.screen_name;
+            System.debug('########## obj : ' + obj);
             lstReturnRecs.add(obj);
         }
 
@@ -239,6 +260,7 @@ public with sharing class localTweetsServerController {
 
     public class Tweet{
         public String created_at {get;set;}
+        public String id_str {get;set;}
         public String text {get;set;}
         public User user {get;set;}
         //public Retweet retweeted_status {get;set;}

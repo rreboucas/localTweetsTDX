@@ -1,0 +1,35 @@
+<template>
+    <div>
+    <article class={computedWrapperClassNames}>
+        <header class="slds-grid">
+                <lightning-layout vertical-align="start" horizontal-align="space">
+                    <lightning-layout-item size="1">
+                        <img src={twitterLogoUrl}>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="11">
+                        <div class="badgePadding">
+                               {title}
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            <div class="slds-no-flex">
+                <slot name="actions"></slot>
+            </div>
+        </header>
+        <div class="wrapper">
+            <ul>
+                <template for:each={tweets} for:item="tweet">
+                    <li key={tweet.tweetId}>
+                        <c-item-action-card createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text}></c-item-action-card>
+                    </li>
+                </template>
+            </ul>
+        </div>
+        <template if:true={showFooter}>
+            <div class="slds-card__footer">
+                <slot name="footer"></slot>
+            </div>
+        </template>
+    </article>
+    </div>
+</template>

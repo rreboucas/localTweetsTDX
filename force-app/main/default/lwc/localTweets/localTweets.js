@@ -11,7 +11,7 @@ export default class LocalTweets extends LightningElement {
     globalLocationId;
     subscription;
     latestCityState;
-    hasData = false;
+    tweetsData;
     error;
 
     @wire(MessageContext)
@@ -34,6 +34,8 @@ export default class LocalTweets extends LightningElement {
     @wire(getTweets, { locationId: '$globalLocationId' })
     wiredTweets({ error, data }) {
         if (data) {
+            this.tweetsData = data;
+            console.log('localTweets.js - tweetsData: ' + this.tweetsData);
             this.error = undefined;
         } else if (error) {
             this.error = error;
@@ -68,7 +70,9 @@ subscribeToChannel() {
         switch (message.EventType) {
             case 'CC_LOCATION_CHANGE': {
                 this.globalLocationName = message.EventPayload.locationName;
+                console.log('localTweets.js - globalLocationName: ' + this.globalLocationName);
                 this.globalLocationId = message.EventPayload.locationId;
+                console.log('localTweets.js - globalLocationId: ' + this.globalLocationId);
                 break;
             }
             default: {

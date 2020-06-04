@@ -1,0 +1,30 @@
+<template>
+    <article class={computedWrapperClassNames}>
+        <header class="slds-card__header slds-grid">
+                <lightning-layout vertical-align="start" horizontal-align="space">
+                    <lightning-layout-item size="5">
+                        <img src={tdxLogoUrl}>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="7">
+                        <div class="headerTitle">
+                               Tester
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            <div class="slds-no-flex">
+                <slot name="actions"></slot>
+            </div>
+        </header>
+        <div class="slds-card__body cardBody">
+            <ul class={ulCssClass}>
+                <li><b>Global Location Name:</b> {globalLocationName}</li>
+                <li><b>Global Location Id:</b> {globalLocationId}</li>
+            </ul>
+        </div>
+        <template if:true={showFooter}>
+            <div class="slds-card__footer">
+                <slot name="footer"></slot>
+            </div>
+        </template>
+    </article>
+</template>

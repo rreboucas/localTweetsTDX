@@ -1,0 +1,39 @@
+article {
+    padding: 0%;
+    border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+}
+header {
+    background-color: black;
+    color: white;
+    font-size: 16px;
+}
+img {
+    max-width: initial;
+    height: auto;
+    padding-bottom: 1rem;
+}
+ul {
+    padding-left: 3rem;
+    font-size: 1rem;
+}
+li {
+    padding-top: 1rem;
+}
+span {
+    padding-top: 0.2rem;
+}
+:host(.cardBody) {
+    background-color: white;
+}
+:host(.mobile) {
+    font-size: 0.6125rem;
+}
+:host(.desktop) {
+    font-size: 0.8125rem;
+} 
+.headerTitle{
+    padding-left: 5rem;
+    padding-top: 1.8rem;
+    margin-left: 2rem;
+    font-size: 2rem;
+}

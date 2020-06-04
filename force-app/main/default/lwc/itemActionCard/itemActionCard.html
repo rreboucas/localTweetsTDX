@@ -17,9 +17,9 @@
             <lightning-layout vertical-align="start" >
                 
                 <!-- Left Column - Row Icon - Start-->
-                <lightning-layout-item padding="around-small" size="1">
+                <lightning-layout-item size="1">
                     <div class="header-column">
-                        <lightning-icon icon-name={rowIconName} size={computedHeaderIconSize} alternative-text="InstallDateTime" title="Install Date Time" ></lightning-icon> 
+                        <img src={twitterLogoUrl}>
                     </div>
                 </lightning-layout-item>
                 <!-- Left Column - Row Icon - End-->
@@ -30,47 +30,39 @@
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
                                 <lightning-layout-item size="1">
-                                    <div class={computedPckgIconPadding}>
-                                        <lightning-icon icon-name="utility:package" size={computedIconSize} alternative-text="PackageIcon" title="PackageIcon" ></lightning-icon> 
+                                    <div>
+                                        <lightning-icon icon-name="utility:clock" size="x-small" alternative-text="PersonIcon" title="PersonIcon" ></lightning-icon> 
                                     </div>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="6">
-                                        <lightning-button variant="base" label={title} value={packageversionid} title={fullTitle} onclick={packageHandlelick}></lightning-button>
-                                </lightning-layout-item>
-                                <lightning-layout-item flexibility="auto, no-grow" size="5">
-                                        <c-badge label={topBadgeLabel} recordid={licenseid}></c-badge>
+                                <lightning-layout-item size="11">
+                                    <lightning-formatted-text value={createdat} ></lightning-formatted-text>
+                                    <!--<lightning-formatted-date-time value={createdat} year={computedYearFormat} month={computedMonthFormat} day={computedDayFormat} weekday={computedWeekDayFormat} hour="2-digit" minute="2-digit"></lightning-formatted-date-time> -->
                                 </lightning-layout-item>
                             </lightning-layout>
                         </li>
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
                                 <lightning-layout-item size="1">
-                                    <div class={computedAcctIconPadding}>
-                                        <lightning-icon icon-name="utility:company" size={computedIconSize} alternative-text="CompanyIcon" title="CompanyIcon" ></lightning-icon> 
+                                    <div>
+                                        <lightning-icon icon-name="utility:people" size={computedIconSize} alternative-text="CompanyIcon" title="CompanyIcon" ></lightning-icon> 
                                     </div>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="6">
-                                        <lightning-button variant="base" label={company} value={companyId} title={fullCompany} onclick={companyHandlelick}></lightning-button>    
-                                </lightning-layout-item>
-                                <lightning-layout-item flexibility="auto, no-grow" size="5">
-                                        <c-badge label={midleBadgeLabel} recordid={companyId}></c-badge>
+                                <lightning-layout-item size="11">
+                                    <lightning-formatted-text value={twitterhandle} ></lightning-formatted-text>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </li>
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
                                 <lightning-layout-item size="1">
-                                    <div class={computedClockIconPadding}>
-                                        <lightning-icon icon-name="utility:clock" size={computedIconSize} alternative-text="ClockIcon" title="ClockIcon" ></lightning-icon> 
+                                    <div>
+                                        <lightning-icon icon-name="utility:answer" size={computedIconSize} alternative-text="ClockIcon" title="ClockIcon" ></lightning-icon> 
                                     </div>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="6">
-                                    <div class="slds-p-top_xx-small">
-                                        <lightning-formatted-date-time value={whichDate} year={computedYearFormat} month={computedMonthFormat} day={computedDayFormat} weekday={computedWeekDayFormat} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                                <lightning-layout-item size="11">
+                                    <div>
+                                        <lightning-formatted-text value={textbody} linkify></lightning-formatted-text>
                                     </div>
-                                </lightning-layout-item>
-                                <lightning-layout-item flexibility="auto, no-grow" size="5">
-                                    <c-badge label={lowerBadgeLabel} recordid={companyId} email={email}></c-badge>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </li>
