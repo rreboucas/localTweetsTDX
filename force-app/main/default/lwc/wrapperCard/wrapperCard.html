@@ -2,7 +2,7 @@
     <div>
     <article class={computedWrapperClassNames}>
         <header class="slds-grid">
-                <lightning-layout vertical-align="start" horizontal-align="space">
+                <lightning-layout vertical-align="center" horizontal-align="space">
                     <lightning-layout-item size="1">
                         <img src={twitterLogoUrl}>
                     </lightning-layout-item>
@@ -20,7 +20,7 @@
             <ul>
                 <template for:each={tweets} for:item="tweet">
                     <li key={tweet.tweetId}>
-                        <c-item-action-card createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text}></c-item-action-card>
+                        <c-item-action-card class={computedChildClassName} createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text}></c-item-action-card>
                     </li>
                 </template>
             </ul>

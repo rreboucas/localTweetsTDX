@@ -45,10 +45,10 @@ public with sharing class localTweetsServerController {
     public static localTweetsServerController getTwitterAccounts(String cityState) {
         localTweetsServerController obj = new localTweetsServerController();
 
-        Twitter_Integration__mdt twitterSecret = [SELECT Token_Secret__c,Token__c, AccessToken__c, TokenSecret__c FROM Twitter_Integration__mdt limit 1];
+        TwitterApp__mdt twitterSecret = [SELECT APISecret__c,APIKey__c, AccessToken__c, TokenSecret__c FROM TwitterApp__mdt limit 1];
 
-        String apiKey = twitterSecret.Token__c;        
-        String apiSecret = twitterSecret.Token_Secret__c;
+        String apiKey = twitterSecret.APIKey__c;        
+        String apiSecret = twitterSecret.APISecret__c;
         String accesToken = twitterSecret.AccessToken__c;        
         String accesTokenSecret = twitterSecret.TokenSecret__c;
 
@@ -131,7 +131,8 @@ public with sharing class localTweetsServerController {
 
         List<localTweetsServerController> lstReturnRecs = new List<localTweetsServerController>();
 
-        Twitter_Integration__mdt twitterSecret = [SELECT Token_Secret__c,Token__c FROM Twitter_Integration__mdt limit 1];
+        //TwitterApp__mdt twitterSecret = [SELECT Token_Secret__c,Token__c FROM TwitterApp__mdt limit 1];
+        TwitterApp__mdt twitterSecret = [SELECT APISecret__c,APIKey__c FROM TwitterApp__mdt limit 1];
         
         /* ------------ Start: Fetch list of Twitter Hanles for Location: ----------------- */
         List<Twitter_Handle__c> lstTwHandlers = [Select name from Twitter_Handle__c where Location__c =: locationId];
@@ -141,11 +142,8 @@ public with sharing class localTweetsServerController {
         if (!lstTwHandlers.isEmpty())
         {
             // 1. Add Risks keyword - TODO: Make it dynamic passing risks keywords defined in Work.com
-            // q=covid%20(reopen%20OR%20closed)%20(from%3Abouldercounty)&src=typed_query
             
             strFromQuery = Encodingutil.urlEncode('(corona OR covid OR order OR covid-19 OR reopen OR open OR closed OR closure OR lockdown OR stay-at-home OR phase OR restriction) (', 'UTF-8');
-            //strFromQuery = Encodingutil.urlEncode('COVID-19 (', 'UTF-8');
-            // q=(covid%20OR%20corona)
 
             // 2. Add Twitter handles for the location
             Integer count = 0;
@@ -156,8 +154,7 @@ public with sharing class localTweetsServerController {
                 strFromQuery = strFromQuery + 'from' + Encodingutil.urlEncode(':' + h.name, 'UTF-8');
                 count++;
             }
-            strFromQuery = strFromQuery + ')';
-            // (from%3Abellevuewa%20OR%20from%3AKingCountyWA%20OR%20from%3AWAStateGov)            
+            strFromQuery = strFromQuery + ')';           
 
             // 3. Add limits
             strFromQuery = strFromQuery + '&result_type=mixed&count=4';
@@ -167,8 +164,8 @@ public with sharing class localTweetsServerController {
         /* ------------ End: Fetch list of Twitter Hanles for Location: ----------------- */
 
         /* ------------ Start: authenticate to Twitter - Retrieve Bearer Token: ----------------- */
-        String oauthConsumerKey = twitterSecret.Token__c;        
-        String oauthConsumerSecret = twitterSecret.Token_Secret__c;
+        String oauthConsumerKey = twitterSecret.APIKey__c;        
+        String oauthConsumerSecret = twitterSecret.APISecret__c;
 
         String baseUrl = 'https://api.twitter.com';
         String oauthSignatureMethod = 'HMAC-SHA1';

@@ -17,11 +17,10 @@
             <lightning-layout vertical-align="start" >
                 
                 <!-- Left Column - Row Icon - Start-->
-                <lightning-layout-item size="1">
-                    <div class="header-column">
-                        <img src={twitterLogoUrl}>
-                    </div>
-                </lightning-layout-item>
+                
+                    <lightning-layout-item size="1">
+                            <img src={twitterLogoUrl}>
+                    </lightning-layout-item>
                 <!-- Left Column - Row Icon - End-->
 
                 <!-- Right Column - Badge Buttons - Start-->
@@ -29,38 +28,43 @@
                     <ul class="rowText">
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
-                                <lightning-layout-item size="1">
-                                    <div>
-                                        <lightning-icon icon-name="utility:clock" size="x-small" alternative-text="PersonIcon" title="PersonIcon" ></lightning-icon> 
-                                    </div>
-                                </lightning-layout-item>
-                                <lightning-layout-item size="11">
-                                    <lightning-formatted-text value={createdat} ></lightning-formatted-text>
-                                    <!--<lightning-formatted-date-time value={createdat} year={computedYearFormat} month={computedMonthFormat} day={computedDayFormat} weekday={computedWeekDayFormat} hour="2-digit" minute="2-digit"></lightning-formatted-date-time> -->
+                                <div class="iconsdiv">
+                                    <lightning-layout-item size="1">
+                                        <div>
+                                            <lightning-icon icon-name="utility:clock" size="x-small" alternative-text="PersonIcon" title="PersonIcon" ></lightning-icon> 
+                                        </div>
+                                    </lightning-layout-item>
+                                </div>
+                                <lightning-layout-item padding="horizontal-small" size="11">
+                                    <lightning-formatted-text  value={createdat} ></lightning-formatted-text>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </li>
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
-                                <lightning-layout-item size="1">
-                                    <div>
-                                        <lightning-icon icon-name="utility:people" size={computedIconSize} alternative-text="CompanyIcon" title="CompanyIcon" ></lightning-icon> 
-                                    </div>
-                                </lightning-layout-item>
-                                <lightning-layout-item size="11">
+                                <div class="iconsdiv">
+                                    <lightning-layout-item size="1">
+                                        <div>
+                                            <lightning-icon icon-name="utility:people" size={computedIconSize} alternative-text="CompanyIcon" title="CompanyIcon" ></lightning-icon> 
+                                        </div>
+                                    </lightning-layout-item>
+                                </div>
+                                <lightning-layout-item padding="horizontal-small" size="11">
                                     <lightning-formatted-text value={twitterhandle} ></lightning-formatted-text>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </li>
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
-                                <lightning-layout-item size="1">
-                                    <div>
-                                        <lightning-icon icon-name="utility:answer" size={computedIconSize} alternative-text="ClockIcon" title="ClockIcon" ></lightning-icon> 
-                                    </div>
-                                </lightning-layout-item>
-                                <lightning-layout-item size="11">
-                                    <div>
+                                <div class="iconsdiv">
+                                    <lightning-layout-item size="1">
+                                        <div>
+                                            <lightning-icon icon-name="utility:answer" size={computedIconSize} alternative-text="ClockIcon" title="ClockIcon" ></lightning-icon> 
+                                        </div>
+                                    </lightning-layout-item>
+                                </div>
+                                <lightning-layout-item padding="horizontal-small" size="11">
+                                    <divnslookup>
                                         <lightning-formatted-text value={textbody} linkify></lightning-formatted-text>
                                     </div>
                                 </lightning-layout-item>

@@ -1,6 +1,5 @@
 import { LightningElement, wire, api } from 'lwc';
 import { subscribe, unsubscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
-import getLocationData from '@salesforce/apex/localTweetsServerController.getLocationAddress';
 import getTweets from '@salesforce/apex/localTweetsServerController.getOfficialsTweets';
 import SF_COMMAND_CENTER_MSG_CHANNEL from '@salesforce/messageChannel/lightning__CommandCenterMessageChannel';
 
@@ -16,20 +15,6 @@ export default class LocalTweets extends LightningElement {
 
     @wire(MessageContext)
     messageContext;
-
-    /*
-    @wire(getLocationData, { locationID: '$globalLocationId' })
-    wiredLocation({ error, data }) {
-        if (data) {
-            this.latestCityState = data.city + ',' + data.state;
-            this.hasData = true;
-            this.error = undefined;
-        } else if (error) {
-            this.error = error;
-            this.latestCityState = undefined;
-        }
-    }
-    */
     
     @wire(getTweets, { locationId: '$globalLocationId' })
     wiredTweets({ error, data }) {
@@ -47,7 +32,7 @@ export default class LocalTweets extends LightningElement {
         this.subscribeToChannel();
     }
 
-    /**
+/**
 * Subscribe to Command Center Message Channel to listen to global filter changes
 */
 subscribeToChannel() {

@@ -1,3 +1,7 @@
+.parent {
+    min-height: 30rem;
+    background-color: white;
+} 
 article {
     padding: 0%;
     border-radius: var(--lwc-borderRadiusMedium,0.25rem);

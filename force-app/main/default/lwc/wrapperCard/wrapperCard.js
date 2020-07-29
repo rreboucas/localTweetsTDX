@@ -18,9 +18,16 @@ export default class WrapperCard extends NavigationMixin(LightningElement) {
     @track privateVariant = 'base';
     twitterLogoUrl = TWT_WHITE_LOGO;
     headerClassName;
+    screenWidth;
+    computedChildClassName;
 
     connectedCallback() {
-        //this.headerClassName = 'headerTitle';
+        this.screenWidth = window.screen.width;
+        console.log('WrapperCard.js - screenWidth: ' + this.screenWidth);
+
+        this.computedChildClassName = 'desktopLarge';
+        if (this.screenWidth <= 1440)
+            this.computedChildClassName = 'desktopSmall';
     }
 
     set variant(value) {

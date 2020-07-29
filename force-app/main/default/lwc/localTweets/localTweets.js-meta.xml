@@ -11,7 +11,7 @@
   </targets>
   <targetConfigs>
       <targetConfig targets="lightning__AppPage, lightning__HomePage, lightning__RecordPage">
-          <property name="title" label="Header title" type="String" default="Local Authorities Messages"  />
+          <property name="title" label="Header title" type="String" default="Local Tweets"  />
       </targetConfig>
   </targetConfigs>
 </LightningComponentBundle>
