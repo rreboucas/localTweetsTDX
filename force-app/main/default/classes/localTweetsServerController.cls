@@ -157,7 +157,7 @@ public with sharing class localTweetsServerController {
             strFromQuery = strFromQuery + ')';           
 
             // 3. Add limits
-            strFromQuery = strFromQuery + '&result_type=mixed&count=4';
+            strFromQuery = strFromQuery + '&result_type=recent&count=10';
             system.debug('####### strFromQuery: ' + strFromQuery);
         }
 

@@ -30,9 +30,13 @@ span {
     font-weight: 500
 } 
 .wrapper {
-    height: 400px;
-    max-height: 300px;
-    min-height: 30rem;
+    height: 30rem;
     overflow-y: scroll;
     color:#298ed6;
+} 
+
+.parent {
+    height: 30rem;
+    max-height: 100%;
+    overflow: hidden;
 } 

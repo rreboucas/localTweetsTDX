@@ -36,4 +36,6 @@ $RECYCLE.BIN/
 
 .vscode/
 
-**/customMetadata/TwitterApp.TwitterApp.md-meta.xml
+**/force-app/main/default/customMetadata
+
+
