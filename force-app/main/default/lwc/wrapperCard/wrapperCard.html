@@ -18,10 +18,15 @@
         </header>
         <div class="wrapper">
             <ul>
-                <template for:each={tweets} for:item="tweet">
+                <template if:true={dataFound} for:each={tweets} for:item="tweet">
                     <li key={tweet.tweetId}>
                         <c-item-action-card class={computedChildClassName} createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text}></c-item-action-card>
                     </li>
+                </template>
+                <template if:false={dataFound}>
+                    <li>No twitter handles were found for this selected location.</li>
+                    <li>Add a Twitter handle from a local authority to see important tweets:</li>
+                    <li><lightning-input placeholder="@twitterHandle"></lightning-input></li>
                 </template>
             </ul>
         </div>

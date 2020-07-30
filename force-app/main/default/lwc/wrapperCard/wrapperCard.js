@@ -20,6 +20,7 @@ export default class WrapperCard extends NavigationMixin(LightningElement) {
     headerClassName;
     screenWidth;
     computedChildClassName;
+    dataFound;
 
     connectedCallback() {
         this.screenWidth = window.screen.width;
@@ -28,6 +29,12 @@ export default class WrapperCard extends NavigationMixin(LightningElement) {
         this.computedChildClassName = 'desktopLarge';
         if (this.screenWidth <= 1440)
             this.computedChildClassName = 'desktopSmall';
+
+        if (this.tweets === null)
+            this.dataFound = false;
+        else
+            this.dataFound = true;
+
     }
 
     set variant(value) {
