@@ -35,3 +35,5 @@ ehthumbs.db
 $RECYCLE.BIN/
 
 .vscode/
+
+**/customMetadata/TwitterApp.TwitterApp.md-meta.xml
