@@ -18,4 +18,4 @@
         <field>TokenSecret__c</field>
         <value xsi:type="xsd:string">Enter your Twitter API Token Secret</value>
     </values>
-</CustomMetadata>   
+</CustomMetadata>    
