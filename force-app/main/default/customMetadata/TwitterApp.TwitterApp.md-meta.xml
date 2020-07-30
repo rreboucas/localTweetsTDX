@@ -4,18 +4,18 @@
     <protected>true</protected>
     <values>
         <field>APIKey__c</field>
-        <value xsi:type="xsd:string">crTSqn98nBWCC8lbj0IauMv06</value>
+        <value xsi:type="xsd:string">Enter your Twitter API Key</value>
     </values>
     <values>
         <field>APISecret__c</field>
-        <value xsi:type="xsd:string">LETjbmGTLmKF9tBldLY8gbNH3pwCgbg7o6ocSixKrkbdRbeJDx</value>
+        <value xsi:type="xsd:string">Enter your Twitter API Secret</value>
     </values>
     <values>
         <field>AccessToken__c</field>
-        <value xsi:type="xsd:string">26842218-tkBPeU49tS49HmxhRrGiAQxpzNSXbhbuCNYrfa5Yn</value>
+        <value xsi:type="xsd:string">Enter your Twitter API Access Token</value>
     </values>
     <values>
         <field>TokenSecret__c</field>
-        <value xsi:type="xsd:string">Tj61ZuwPR4HYfdFDD2RD9gXkEFRdcH4oksQEoBUjxMbB9</value>
+        <value xsi:type="xsd:string">Enter your Twitter API Token Secret</value>
     </values>
 </CustomMetadata> 
