@@ -10,17 +10,18 @@
         <a href="#" onclick={selectHandler}>
         <lightning-layout vertical-align="start" horizontal-align="space">
           <!-- Left Column - Badge Icon - Start-->
-          <lightning-layout-item size="2">
+          <lightning-layout-item size="3">
             <div class={iconCSSClass}>
-                <lightning-icon icon-name={badgeIconName} size="xx-small" alternative-text="BadgeIcon" title="BadgeIcon" alignment-bump="left" ></lightning-icon> 
+                <lightning-icon icon-name={badgeIconName} size={iconSize} alternative-text="BadgeIcon" title="BadgeIcon" alignment-bump="left" ></lightning-icon> 
             </div>
         </lightning-layout-item>
         <!-- Left Column - Row Icon - End-->
 
         <!-- Right Column - Badge Icon - Start-->
-        <lightning-layout-item size="10">
-            
-                <b>{label}</b>
+        <lightning-layout-item size="9">
+        <div class="labeldiv">    
+                {label}
+        </div>
         </lightning-layout-item>
         <!-- Right Column - Row Icon - End-->
 

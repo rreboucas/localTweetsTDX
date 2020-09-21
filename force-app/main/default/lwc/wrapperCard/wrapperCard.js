@@ -15,6 +15,7 @@ import TWT_WHITE_LOGO from '@salesforce/resourceUrl/TwitterWhite';
 export default class WrapperCard extends NavigationMixin(LightningElement) {
     @api title;
     @api tweets;
+    @api locationid;
     @track privateVariant = 'base';
     twitterLogoUrl = TWT_WHITE_LOGO;
     headerClassName;
@@ -23,6 +24,7 @@ export default class WrapperCard extends NavigationMixin(LightningElement) {
     dataFound;
 
     connectedCallback() {
+        this.showFooter = true;
         this.screenWidth = window.screen.width;
         console.log('WrapperCard.js - screenWidth: ' + this.screenWidth);
 
@@ -34,6 +36,9 @@ export default class WrapperCard extends NavigationMixin(LightningElement) {
             this.dataFound = false;
         else
             this.dataFound = true;
+       
+       
+        console.log('WrapperCard.js - this.tweets: ' + this.tweets);
 
     }
 

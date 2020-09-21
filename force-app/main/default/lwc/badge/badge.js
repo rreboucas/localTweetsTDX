@@ -22,6 +22,7 @@ export default class cBadge extends NavigationMixin(LightningElement) {
     sendEmail = false;
     emailType;
     iconCSSClass;
+    iconSize;
 
     @wire(MessageContext)
     messageContext;
@@ -29,9 +30,13 @@ export default class cBadge extends NavigationMixin(LightningElement) {
     connectedCallback() {
         //this.classList.add('icon');
         //this.classList.add('label');
-
+        this.iconSize = 'xx-small';
+        this.iconCSSClass = 'slds-p-top_xxx-small';
         // Check which Badge icon to use based on Badge's Label
         switch(this.label) {
+            case 'Task':
+                this.badgeIconName = 'utility:add';
+              break;
             case 'View License':
                 this.badgeIconName = 'utility:dynamic_record_choice';
                 this.classList.add('viewlicense');
@@ -103,13 +108,13 @@ export default class cBadge extends NavigationMixin(LightningElement) {
                     });
                 }
             break;
-            case 'View Recommendations':
+            case 'Task':
                 {
                     // Send Message to Parent LWC to handle
-                    this.payload = {recId: this.recordid, action:"nba"};
+                   
 
                     // Creates the event with the record ID data.
-                    const selectedEvent = new CustomEvent('selected', { detail: this.payload });
+                    const selectedEvent = new CustomEvent('selected');
 
                     // Dispatches the event.
                     this.dispatchEvent(selectedEvent);

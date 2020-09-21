@@ -24,7 +24,7 @@
                 <!-- Left Column - Row Icon - End-->
 
                 <!-- Right Column - Badge Buttons - Start-->
-                <lightning-layout-item padding="horizontal-small" size="11">
+                <lightning-layout-item padding="horizontal-small" size="9">
                     <ul class="rowText">
                         <li>
                             <lightning-layout vertical-align="stretch" multiple-rows=true>
@@ -71,7 +71,10 @@
                             </lightning-layout>
                         </li>
                     </ul>
-                </lightning-layout-item>                
+                </lightning-layout-item>
+                <lightning-layout-item size="2">
+                    <c-badge class={computedChildClassName} onselected={createTaskHandler} label="Task"></c-badge>
+            </lightning-layout-item>                
                 <!-- Right Column - Badge Buttons - End-->
             </lightning-layout>
 

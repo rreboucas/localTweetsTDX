@@ -1,5 +1,51 @@
 <template>
-    <div class="parent">
-        <c-wrapper-card title={title} tweets={tweetsData}></c-wrapper-card>
+    <div class="parent slds-card">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <!--<c-wrapper-card title={title} locationid={globalLocationId} tweets={tweetsData}></c-wrapper-card> -->
+
+        <div class="parent">
+            <article class={computedWrapperClassNames}>
+                <header class="slds-grid">
+                        <lightning-layout vertical-align="center" horizontal-align="space">
+                            <lightning-layout-item size="1">
+                                <img src={twitterLogoUrl}>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="11">
+                                <div class="badgePadding">
+                                       {title}
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    <div class="slds-no-flex">
+                        <slot name="actions"></slot>
+                    </div>
+                </header>
+                <div class="wrapper">
+                    <ul>
+                        <template if:true={dataFound} for:each={tweetsData} for:item="tweet">
+                            <li key={tweet.tweetId}>
+                                <c-item-action-card class={computedChildClassName} createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text} locationid={globalLocationId} masterlocationid={tweet.locationid}></c-item-action-card>
+                            </li>
+                        </template>
+                        <template if:false={dataFound}>
+                            <li class="warning"><lightning-icon icon-name="utility:relate" alternative-text="Relate" title="Relate"></lightning-icon></li>
+                            <li class="warning">No twitter handles were found for this selected location.</li>
+                            <li class="warning">Add a Twitter handle record for this location to see important tweets from local authorities:</li>
+                            <li class="warning"><lightning-button variant="brand" label="Add Tweeter Handle" title="Add Tweeter Handle" onclick={createTweeterHandle} class="slds-m-left_x-small"></lightning-button></li>
+                        </template>
+                    </ul>
+                </div>
+                <template if:true={showFooter}>
+                    <div class="slds-card__footer">
+                        <slot name="footer">
+                            <lightning-formatted-url value="https://salesforce.com" tooltip="Use https://domain-name" label="Visit salesforce.com" target="_blank" ></lightning-formatted-url>
+                        </slot>
+                    </div>
+                </template>
+            </article>
+            </div>
+
     </div>
 </template>

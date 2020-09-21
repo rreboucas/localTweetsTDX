@@ -16,6 +16,8 @@ public with sharing class localTweetsServerController {
     public String city { get;set; }
     @AuraEnabled
     public String state { get;set; }
+    @AuraEnabled
+    public String locationid { get;set; }
 
     @AuraEnabled(cacheable=true)
     public static localTweetsServerController getLocationAddress(String locationID) {
@@ -113,11 +115,14 @@ public with sharing class localTweetsServerController {
     @AuraEnabled(cacheable=true)
     public static List<localTweetsServerController> getOfficialsTweets(String locationId) {
 
-        // If Location Id is null, fetch location ID for the countru - TODO: make it dynamic
+        // If Location Id is null, fetch location ID for the country that matches the running user's country
+        String strUserId = UserInfo.getUserId();
+        sObject u = [SELECT Id,Country FROM User WHERE id =: strUserId LIMIT 1];
+        system.debug('####### u: ' + u);
         if(String.isEmpty(locationId))
         {
             Sobject masterLocation;
-            String soql = 'SELECT Id FROM Location where name = ' + ' \'' + 'US' +'\'' + ' and LocationType = ' + ' \'' + 'Site' +'\'' + ' order by createddate desc limit 1';
+            String soql = 'SELECT Id FROM Location where name = ' + ' \'' + u.get('Country') +'\'' + ' and LocationType = ' + ' \'' + 'Site' +'\'' + ' order by createddate desc limit 1';
             System.Debug('##### soql: ' + soql);
             masterLocation = Database.query(soql);
 
@@ -134,16 +139,36 @@ public with sharing class localTweetsServerController {
         //TwitterApp__mdt twitterSecret = [SELECT Token_Secret__c,Token__c FROM TwitterApp__mdt limit 1];
         TwitterApp__mdt twitterSecret = [SELECT APISecret__c,APIKey__c FROM TwitterApp__mdt limit 1];
         
-        /* ------------ Start: Fetch list of Twitter Hanles for Location: ----------------- */
+        /* Fetch list of Twitter Hanles for Location: ----------------- */
         List<Twitter_Handle__c> lstTwHandlers = [Select name from Twitter_Handle__c where Location__c =: locationId];
         system.debug('####### Twitter Handlers: ' + lstTwHandlers);
+
+        
 
         String strFromQuery;
         if (!lstTwHandlers.isEmpty())
         {
-            // 1. Add Risks keyword - TODO: Make it dynamic passing risks keywords defined in Work.com
+            /* Fetch list of Tweeter search terms from the active Crisis record(s): ----------------- */
+        List<Tweeter_Search_Term__c> lstSearchTerms = [SELECT id, Name, Crisis__c FROM Tweeter_Search_Term__c where Crisis__r.EndDate = NULL or Crisis__r.EndDate > TODAY];
+        system.debug('####### lstSearchTerms: ' + lstSearchTerms);
+        String strSearchTermsString = '';
+        if (lstSearchTerms.size() > 0)
+        {
+            for (Integer i = 0; i < lstSearchTerms.size(); i++)
+            {
+                if (i == 0)
+                    strSearchTermsString =  lstSearchTerms[i].Name;
+                else {
+                    {
+                        strSearchTermsString = strSearchTermsString + ' OR ' + lstSearchTerms[i].Name;
+                    }
+                }
+            }
+                
+        }
             
-            strFromQuery = Encodingutil.urlEncode('(corona OR covid OR order OR covid-19 OR reopen OR open OR closed OR closure OR lockdown OR stay-at-home OR phase OR restriction) (', 'UTF-8');
+            
+            strFromQuery = Encodingutil.urlEncode('('+ strSearchTermsString + ') (', 'UTF-8');
 
             // 2. Add Twitter handles for the location
             Integer count = 0;
@@ -159,7 +184,7 @@ public with sharing class localTweetsServerController {
             // 3. Add limits
             strFromQuery = strFromQuery + '&result_type=recent&count=10';
             system.debug('####### strFromQuery: ' + strFromQuery);
-        }
+        
 
         /* ------------ End: Fetch list of Twitter Hanles for Location: ----------------- */
 
@@ -240,11 +265,12 @@ public with sharing class localTweetsServerController {
             obj.tweetId = t.id_str;
             obj.text = t.text;
             obj.twitterHandle = t.user.screen_name;
+            obj.locationid = locationid;
             System.debug('########## obj : ' + obj);
             lstReturnRecs.add(obj);
         }
 
-
+    }
         /* ------------ End: fetch and parse tweets from Local Authorities for the location: ----------------- */
         System.debug('########## lstReturnRecs size : ' + lstReturnRecs.size());
         System.debug('########## lstReturnRecs : ' + lstReturnRecs);

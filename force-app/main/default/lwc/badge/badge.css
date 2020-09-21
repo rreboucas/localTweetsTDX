@@ -9,6 +9,7 @@
 :host {
     background-color: #FFFFFF;
     padding: 0.10rem 0.85rem;
+    padding-left: 0.5rem;
     font-weight: 700;
     border-radius: 15rem;
     line-height: normal;
@@ -32,10 +33,10 @@ a {
 }
 :host(.mobile),
 b {
-    padding-left: 0.2rem;
+    padding-left: 0.5rem;
 }
 :host(.desktop) {
-    font-size: 0.45rem;
+    font-size: 0.55rem;
     border-radius: 15rem;
 }
 :host(.viewlicense) {
@@ -60,3 +61,9 @@ b {
 :host(.notification) {
     background-color: #fcf7e8;
 }
+.labeldiv {
+    padding-left: 0.5rem;
+    color: #6F6E6A;
+    font-size: small;
+    padding-bottom: 0.1rem;
+} 

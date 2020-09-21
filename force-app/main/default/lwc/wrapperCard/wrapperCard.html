@@ -20,19 +20,21 @@
             <ul>
                 <template if:true={dataFound} for:each={tweets} for:item="tweet">
                     <li key={tweet.tweetId}>
-                        <c-item-action-card class={computedChildClassName} createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text}></c-item-action-card>
+                        <c-item-action-card class={computedChildClassName} createdat={tweet.createdAt} twitterhandle={tweet.twitterHandle} textbody={tweet.text} locationid={locationid} masterlocationid={tweet.locationid}></c-item-action-card>
                     </li>
                 </template>
                 <template if:false={dataFound}>
                     <li>No twitter handles were found for this selected location.</li>
-                    <li>Add a Twitter handle from a local authority to see important tweets:</li>
+                    <li>Add a Twitter handle record for this location to see important tweets from local authorities:</li>
                     <li><lightning-input placeholder="@twitterHandle"></lightning-input></li>
                 </template>
             </ul>
         </div>
         <template if:true={showFooter}>
             <div class="slds-card__footer">
-                <slot name="footer"></slot>
+                <slot name="footer">
+                    <lightning-formatted-url value="https://salesforce.com" tooltip="Use https://domain-name" label="Visit salesforce.com" target="_blank" ></lightning-formatted-url>
+                </slot>
             </div>
         </template>
     </article>

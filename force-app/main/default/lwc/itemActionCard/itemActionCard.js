@@ -16,6 +16,8 @@ export default class ItemActionCard extends NavigationMixin(LightningElement) {
     @api createdat;
     @api twitterhandle;
     @api textbody;
+    @api locationid;
+    @api masterlocationid;
 
     twitterLogoUrl = TWT_BLUE_LOGO;
 
@@ -39,7 +41,7 @@ export default class ItemActionCard extends NavigationMixin(LightningElement) {
     computedAcctIconPadding;
     computedClockIconPadding;
     screenWidth;
-
+    locationIdToUse;
 
     @track privateVariant = 'base';
 
@@ -47,13 +49,21 @@ export default class ItemActionCard extends NavigationMixin(LightningElement) {
         this.screenWidth = window.screen.width;
         console.log('ItemActionCard.js - screenWidth: ' + this.screenWidth);
 
+        
+        if (this.locationid !== null)
+            this.locationIdToUse = this.locationid
+        else
+            this.locationIdToUse = this.masterlocationid;
+
+        console.log('ItemActionCard.js - locationIdToUse: ' + this.locationIdToUse);
+
         this.createdat = this.createdat.slice(0, 19);
         this.twitterhandle = '@' + this.twitterhandle;
         this.computedPckgIconPadding = 'slds-p-top_xx-small';
         this.computedAcctIconPadding = 'slds-p-top_xx-small';
         this.computedClockIconPadding = 'slds-p-top_xx-small';
-
         console.log('ItemActionCard.js - FORM_FACTOR: ' + FORM_FACTOR);
+        console.log('ItemActionCard.js - locationid: ' + this.locationid);
         console.log('ItemActionCard.js - flexipageRegionWidth: ' + this.flexipageRegionWidth);
 
          // Check formfactor being used to access this LWC
@@ -107,6 +117,24 @@ export default class ItemActionCard extends NavigationMixin(LightningElement) {
 
     }
 
+    createTaskHandler(event) {
+        event.preventDefault();
+        console.log('ItemActionCard.js - createTaskHandler ');
+        
+
+        console.log('ItemActionCard.js - locationIdToUse: ' + this.locationIdToUse);
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Task',
+                actionName: 'new'
+            },
+            state : {
+                nooverride: '1',
+                defaultFieldValues:"Subject=Twitter Announcement: " + this.textbody + ",wkcc__ActionCategory__c=Location Alert,wkcc__Location__c=" + this.locationIdToUse
+            }
+        });
+    }
 
     set variant(value) {
         if (isNarrow(value) || isBase(value)) {
